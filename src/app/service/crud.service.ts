@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Personas } from './../interface/personas.interface';
+import { Usuarios } from '../interface/usuarios';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +28,9 @@ export class CrudService {
 
   editarPersonas(nombre:string, direccion:string, edad:string, estado:boolean,id:number){
     return this.http.get('http://localhost/crud/editar.php?nombre='+nombre+'&direccion='+direccion+'&edad='+edad+'&estado='+estado+'&id='+id);
+  }
+
+  validarIngreso(correo:string,contra:string){
+    return this.http.get<Usuarios[]>('http://localhost/crud/validar.php?correo='+correo+'&contra='+contra);
   }
 }
