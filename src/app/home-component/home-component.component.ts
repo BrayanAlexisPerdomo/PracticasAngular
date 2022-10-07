@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../service/crud.service';
 
 import { Personas } from '../interface/personas.interface'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-component',
@@ -18,30 +19,31 @@ export class HomeComponentComponent implements OnInit {
   direccion:string="";
   edad:string="";
   estado:boolean=true;
+  rol:string="";
+  name:string="";
 
-  constructor(private crudService:CrudService){}
+  constructor(private router:Router,private route:ActivatedRoute,private crudService:CrudService){}
 
   ngOnInit(){
+    this.rol=this.route.snapshot.params['rol'];
+    this.name=this.route.snapshot.params['nombre'];
     this.consultar();
   }
 
   consultar(){
     this.crudService.obtenerPersonas().subscribe(personas=>{
-      console.log(personas);
       this.personas=personas;
     });
   }
 
   eliminar(id:number){
     this.crudService.eliminarPersonas(id).subscribe(data=>{
-      console.log(data);
       this.ngOnInit();
     });
   }
 
   guardar(){
     this.crudService.guardarPersonas(this.nombre, this.direccion, this.edad, this.estado).subscribe(data=>{
-      console.log(data);
       this.ngOnInit()
     });
   
@@ -49,8 +51,11 @@ export class HomeComponentComponent implements OnInit {
 
   editar(id:number){
     this.crudService.editarPersonas(this.nombre, this.direccion, this.edad, this.estado,id).subscribe(data=>{
-      console.log(data);
       this.ngOnInit();
     });
+  }
+
+  salir(){
+    this.router.navigate(['login']);
   }
 }

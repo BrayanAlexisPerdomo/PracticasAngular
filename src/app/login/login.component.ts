@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Usuarios } from '../interface/usuarios';
 import { CrudService } from '../service/crud.service';
 
@@ -14,22 +15,29 @@ export class LoginComponent implements OnInit {
 
   correo:string="";
   contra:string="";
-  i:number=0;
+  
+  
+  
 
-
-  constructor(private crudService:CrudService) { }
+  constructor(private router:Router,private crudService:CrudService) { }
 
   ngOnInit(): void {
+    
   }
 
   validar(){
-    console.log(this.correo);
-    console.log(this.contra);
-   
-    this.crudService.validarIngreso(this.correo,this.contra).subscribe(usuarios=>{
-      console.log(usuarios[0].Nombre);
+      this.crudService.validarIngreso(this.correo,this.contra).subscribe(usuarios=>{
       this.usuarios=usuarios;
+      if(this.usuarios[0] != undefined){
+        this.redirigir(this.usuarios[0].Nombre,this.usuarios[0].Rol);
+      }else{
+        window.alert('Las credenciales son incorrectas, intente nuevamente.');
+      }
     });
+  }
+
+  redirigir(nombre:string,rol:string){
+    this.router.navigate(['home',nombre,rol]);
   }
   
 }

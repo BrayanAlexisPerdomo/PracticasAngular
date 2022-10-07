@@ -18,6 +18,14 @@ table{
     text-align: center;
 }
 
-label{
+#btn_salir{
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 850px;
+    text-align: left;
     
+}
+
+#saludo span{
+    color: dodgerblue;
 }
